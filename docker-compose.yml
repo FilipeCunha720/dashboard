@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  mysql-db:
+    image: mysql:5
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: definitions
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -ptest123 -e 'select 1'"]
+      interval: 5s
+      retries: 50
+
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysql-db
+    ports:
+      - "80:8080"
+      - "443:443"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db/definitions
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=test123
+      - SPRING_JPA_HIBERNATE_NAMING_PHYSICAL_STRATEGY=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
