@@ -1,3 +1,7 @@
+### Prerequisites
+
+`Java 11`
+
 ### Running the environment
 
 To build the environment, run `./gradlew bootJar` in the terminal. This will build a `.jar` file that will be used when running the environment.
