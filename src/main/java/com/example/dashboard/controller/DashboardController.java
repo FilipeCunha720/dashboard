@@ -5,7 +5,9 @@ import com.example.dashboard.repository.DashboardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public class DashboardController {
     @GetMapping
     public List<Dashboard> findAllDashboards() {
         return dashboardRepository.findAll().stream()
-                .map(dash -> mapper.convertValue(dash,Dashboard.class))
+                .map(dash -> mapper.convertValue(dash, Dashboard.class))
                 .collect(Collectors.toList());
     }
 }
