@@ -18,8 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -57,6 +59,31 @@ class DashboardControllerTests {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(
                 mapper.writeValueAsString(List.of(new Dashboard(1, "Title", timestamp, timestamp)))
+        );
+    }
+
+
+    @Test
+    public void findDashboardById() throws Exception {
+
+        Date date = new Date();
+
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        // given
+        given(dashboardRepository.findById(anyInt()))
+                .willReturn(Optional.of(new DashboardEntity(1, "Title", timestamp, timestamp)));
+
+        // when
+        MockHttpServletResponse response = mvc.perform(
+                get("/dashboards/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(
+                mapper.writeValueAsString(new Dashboard(1, "Title", timestamp, timestamp))
         );
     }
 
