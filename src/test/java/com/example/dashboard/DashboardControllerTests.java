@@ -87,4 +87,25 @@ class DashboardControllerTests {
         );
     }
 
+    @Test
+    public void findDashboardByIdNotFound() throws Exception {
+
+        Date date = new Date();
+
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        // given
+        given(dashboardRepository.findById(anyInt()))
+                .willReturn(Optional.empty());
+
+        // when
+        MockHttpServletResponse response = mvc.perform(
+                get("/dashboards/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getErrorMessage()).isEqualTo("Id not found");
+    }
 }
