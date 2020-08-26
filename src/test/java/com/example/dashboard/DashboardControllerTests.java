@@ -47,7 +47,7 @@ class DashboardControllerTests {
 
         // given
         given(dashboardRepository.findAll())
-                .willReturn(List.of(new DashboardEntity(1, "Title", timestamp, timestamp)));
+                .willReturn(List.of(DashboardEntity.builder().createdAt(timestamp).updatedAt(timestamp).description("Description").title("Title").id(1).build()));
 
         // when
         MockHttpServletResponse response = mvc.perform(
@@ -58,7 +58,7 @@ class DashboardControllerTests {
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(
-                mapper.writeValueAsString(List.of(new Dashboard(1, "Title", timestamp, timestamp)))
+                mapper.writeValueAsString(List.of(DashboardEntity.builder().createdAt(timestamp).updatedAt(timestamp).description("Description").title("Title").id(1).build()))
         );
     }
 
@@ -72,7 +72,7 @@ class DashboardControllerTests {
 
         // given
         given(dashboardRepository.findById(anyInt()))
-                .willReturn(Optional.of(new DashboardEntity(1, "Title", timestamp, timestamp)));
+                .willReturn(Optional.of(DashboardEntity.builder().createdAt(timestamp).updatedAt(timestamp).description("Description").title("Title").id(1).build()));
 
         // when
         MockHttpServletResponse response = mvc.perform(
@@ -83,7 +83,7 @@ class DashboardControllerTests {
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(
-                mapper.writeValueAsString(new Dashboard(1, "Title", timestamp, timestamp))
+                mapper.writeValueAsString(DashboardEntity.builder().createdAt(timestamp).updatedAt(timestamp).description("Description").title("Title").id(1).build())
         );
     }
 

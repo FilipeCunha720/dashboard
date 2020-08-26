@@ -23,6 +23,8 @@ public class DashboardEntity {
 
     private String title;
 
+    private String description;
+
     private Timestamp createdAt;
 
     @LastModifiedDate

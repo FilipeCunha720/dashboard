@@ -17,6 +17,8 @@ public class Dashboard {
 
     private String title;
 
+    private String description;
+
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
